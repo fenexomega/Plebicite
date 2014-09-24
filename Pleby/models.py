@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Tag(models.Model):
 	titulo = models.CharField(max_length=150,blank=None,unique=True)
+	enquetes = models.ManyToManyField('Enquete',verbose_name="enquetes")
 	def __unicode__(self):
 		return self.titulo
 

@@ -1,9 +1,10 @@
 # encoding: utf-8
 from django import forms
+from django.contrib.auth import authenticate
 
 class LoginForm(forms.Form):
-	username = forms.CharField(label="Login",max_length=30)
-	password = forms.CharField(label="Senha",max_length=30,widget=forms.PasswordInput())
+	username = forms.CharField(label="Login",max_length=30,widget=forms.TextInput(attrs={'placeholder':'Login','class':'form-control'}))
+	password = forms.CharField(label="Senha",max_length=30,widget=forms.PasswordInput(attrs={'placeholder':'Senha','class':'form-control'}))
 	def clean(self):
 		cleaned_data = super(LoginForm,self).clean()
 		username = self.cleaned_data.get('username')

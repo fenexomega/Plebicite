@@ -20,6 +20,11 @@
 			        <div class="col-md-4">
 			          <h2>{{ enquete.titulo }}</h2>
 			          <p>{{	enquete.descricao | truncatechars:400 }}</p>
+			          <div class="tags_enquetes">
+			          {% for tag in enquete.tags.all %}
+			          		<a href="#">@{{ tag.titulo }}</a>
+			          {% endfor %}
+			      	  </div>
 			          <p><a class="btn btn-default" href="#" role="button">Ver Detalhes &raquo;</a></p>
 			        </div>
 			{% endfor %}
