@@ -5,3 +5,4 @@ from Pleby.models import *
 admin.site.register(Tag)
 admin.site.register(Enquete)
 admin.site.register(Opcao)
+admin.site.register(Usuario)

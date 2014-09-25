@@ -36,6 +36,14 @@ def detalhe_enquete(request,id):
 def create_usuario(request):
 	if request.POST:
 		form = CreateUsuarioForm(request.POST) 
+		if form.is_valid():
+			username = form.cleaned_data['username']
+			email = form.cleaned_data['email']
+			password = form.cleaned_data['password']
+			user = User.objects.create_user(username=username,password=password,email=email)
+			user.is_active = True
+			user.save()
+			usuario = Usuario(user_auth=user,)
 		return render(request,'create_usuario.html',{'form':form})
 	form = CreateUsuarioForm()
 	return render(request,'create_usuario.html',{'form':form})

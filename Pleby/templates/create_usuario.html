@@ -3,13 +3,15 @@
 		Login
 	{% endblock %}
 	{% block body %}
-		<form method="post" action="{% url "login" %}" >
+	<div class="container"> 
+		<form method="post" class="form-signin" action="{% url "create_usuario" %}" >
 			{% csrf_token %}
 			<table>
 			{{	form.as_table }}
 			<td>
-				<input value="Registrar" type="submit" class="button" />
+				<input value="Registrar" type="submit" class="btn btn-large btn-primary" />
 			</td>
 			</table>
 		</form>
+		</div>
 	{% endblock %}

@@ -4,6 +4,7 @@
 	{% endblock %}
 
 	{% block body %}
+	    <!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
 	      <div class="container">
 	        <h1>Hello, world!</h1>
@@ -11,26 +12,24 @@
 	        <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
 	      </div>
 	    </div>
-	{% endblock %}
-
-	{% block container %}    
-		{% if enquetes|length > 0 %}
+		<div class="container">
+			{% if enquetes|length > 0 %}
 				<div class="row">
-			{% for enquete in enquetes %}
-			        <div class="col-md-4">
-			          <h2>{{ enquete.titulo }}</h2>
-			          <p>{{	enquete.descricao | truncatechars:400 }}</p>
-			          <div class="tags_enquetes">
-			          {% for tag in enquete.tags.all %}
-			          		<a href="#">@{{ tag.titulo }}</a>
-			          {% endfor %}
-			      	  </div>
-			          <p><a class="btn btn-default" href="#" role="button">Ver Detalhes &raquo;</a></p>
-			        </div>
-			{% endfor %}
-			    </div>
-
+				{% for enquete in enquetes %}
+				        <div class="col-md-4">
+				          <h2>{{ enquete.titulo }}</h2>
+				          <p>{{	enquete.descricao | truncatechars:400 }}</p>
+				          <div class="tags_enquetes">
+				          {% for tag in enquete.tags.all %}
+				          		<a href="#">@{{ tag.titulo }}</a>
+				          {% endfor %}
+				      	  </div>
+				          <p><a class="btn btn-default" href="#" role="button">Ver Detalhes &raquo;</a></p>
+				        </div>
+				{% endfor %}
+				</div>
 		{% else %}
 			<h3> Não há enquetes </h3>
 		{% endif %}
+		</div>
 	{% endblock %}

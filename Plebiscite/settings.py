@@ -84,4 +84,6 @@ STATIC_URL = '/static/'
 
 #Content Processor
 
+DATE_INPUT_FORMATS = ('%d/%m/%Y',)
+
 TEMPLATE_CONTEXT_PROCESSORS = django.conf.settings.TEMPLATE_CONTEXT_PROCESSORS + ('Pleby.login_content.include_login_form',)
