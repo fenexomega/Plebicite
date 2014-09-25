@@ -52,7 +52,7 @@
             <a href="{% url "create_usuario" %}" class="navbar-right navbar-nav " >Registrar</a>
             </form>
 			{% else %}
-				<h3 class="navbar-right" id="user-username" >Olá {{ user.username }}</h3>
+				<h3 class="navbar-right" id="user-username" >Olá <a href="#">{{ user.username }}</a></h3>
 				<a class="navbar-right" href="{% url "log_out" %}" >Logout</a>
 			{% endif %}
 	    	</div><!--/.navbar-collapse -->

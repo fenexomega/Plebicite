@@ -29,7 +29,7 @@ class Usuario(models.Model):
 	enquetes_votadas = models.ManyToManyField(Enquete,through="RelacaoUsuarioEnquete")
 	especial = models.BooleanField(default=False)
 	def __unicode__(self):
-		return user_auth.username
+		return self.user_auth.username
 
 class RelacaoUsuarioEnquete(models.Model):
 	usuario = models.ForeignKey(Usuario)

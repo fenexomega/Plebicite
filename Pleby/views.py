@@ -4,13 +4,14 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
 from Pleby.models import *
-from .forms import LoginForm,CreateUsuarioForm
+from .forms import LoginForm,CreateUsuarioForm, CreateEnqueteForm
 
 def index(request):
 	enquetes = Enquete.objects.all()[:3]
 	return render(request,"index.html",{'enquetes':enquetes})
 
 def login_user(request):
+	form = LoginForm()
 	if request.POST:
 		form = LoginForm(request.POST) 
 		if form.is_valid():
@@ -23,7 +24,6 @@ def login_user(request):
 					return redirect(request.GET['next'])
 			else:
 				return HttpResponseRedirect(reverse('index'))
-	form = LoginForm()
 	return HttpResponseRedirect(reverse('index'))
 
 
@@ -37,16 +37,27 @@ def create_usuario(request):
 	if request.POST:
 		form = CreateUsuarioForm(request.POST) 
 		if form.is_valid():
-			username = form.cleaned_data['username']
-			email = form.cleaned_data['email']
-			password = form.cleaned_data['password']
-			user = User.objects.create_user(username=username,password=password,email=email)
-			user.is_active = True
+			username 		= form.cleaned_data['username']
+			email 			= form.cleaned_data['email']
+			password 		= form.cleaned_data['password']
+			aniversario 	= form.cleaned_data['aniversario']
+			user 			= User.objects.create_user(username=username,password=password,email=email)
+			user.is_active  = True
 			user.save()
-			usuario = Usuario(user_auth=user,)
+			usuario 		= Usuario(user_auth=user,data_nascimento=aniversario)
+			usuario.save()
+			user 			= authenticate(username=username,password=password)
+			login(request,user)
+			return HttpResponseRedirect(reverse("index"))
 		return render(request,'create_usuario.html',{'form':form})
 	form = CreateUsuarioForm()
 	return render(request,'create_usuario.html',{'form':form})
+
+
+def create_enquete(request):
+	form = CreateEnqueteForm()
+	if request.POST:
+
 
 def log_out(request):
 	logout(request)

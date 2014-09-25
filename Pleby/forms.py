@@ -2,6 +2,8 @@
 from django import forms
 from django.contrib.auth import authenticate
 import datetime
+from django.forms import extras
+from Pleby.models import Enquete
 
 def getYear():
 	return (datetime.datetime.utcnow() - datetime.timedelta(hours=11)).year
@@ -23,9 +25,7 @@ class CreateUsuarioForm(forms.Form):
 	password_confirm  = forms.CharField(label="Repita a Senha",max_length=30,widget=forms.PasswordInput(attrs={'placeholder':'Confirmação','class':'input-block-level'}))
 	email 			  = forms.EmailField(label="Email",widget=forms.TextInput(attrs={'placeholder':'Email','class':'input-block-level'}))
 	email_confimation = forms.EmailField(label="Confirmação de Email",widget=forms.TextInput(attrs={'placeholder':'Confirmação','class':'input-block-level'}))
-	dia 			  = forms.DecimalField(label='dia',min_value=1,max_value=31,max_digits=2,initial=1)
-	mes 			  = forms.DecimalField(label='mes',min_value=1,max_value=12,max_digits=2,initial=1)
-	ano 			  = forms.DecimalField(label='ano',min_value=1900,max_value=getYear(),max_digits=2,initial=1900)
+	aniversario 	  = forms.DateField(widget=extras.SelectDateWidget())
 	def clean(self):
 		cleaned_data  = super(CreateUsuarioForm,self).clean()
 		password = cleaned_data.get('password',None)
@@ -37,3 +37,8 @@ class CreateUsuarioForm(forms.Form):
 		if password_confirm != password:
 			raise forms.ValidationError("As senhas não conferem!")
 		return self.cleaned_data
+
+class CreateEnqueteForm(forms.ModelForm):
+	class Meta:
+		model = Enquete
+		exclude = []
