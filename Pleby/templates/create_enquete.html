@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 	{% block title %}
-		Login
+		Criar Enquete
 	{% endblock %}
 	{% block body %}
-		<form method="post" action="#">
-			
+	<div class="container">
+		<form method="post" action="#" class="form-control">
+		{% csrf_token %}
+			<table>
+				{{ form.as_table }}
+				<td>
+					<input value="Criar Enquete" ttpe="submit"  class="btn btn-success" />
+				</td>
+			</table>
 		</form>
+	</div>
 	{% endblock %}

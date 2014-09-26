@@ -57,6 +57,15 @@ def create_usuario(request):
 def create_enquete(request):
 	form = CreateEnqueteForm()
 	if request.POST:
+		form = CreateEnqueteForm(request.POST)
+		if form.is_valid():
+			titulo 		= form.cleaned_data['titulo']
+			descricao 	= form.cleaned_data['descricao']
+			tags 		= form.cleaned_data['tags']
+			opcoes		= form.cleaned_data['opcoes']
+	return render(request,'create_enquete.html',{'form':form})
+
+
 
 
 def log_out(request):
