@@ -4,7 +4,7 @@
 	{% endblock %}
 	{% block body %}
 	<div class="container"> 
-		<form method="post" class="form-signin" action="{% url "create_usuario" %}" >
+		<form method="post" class="form-signin" action="{% url "registrar" %}" >
 			{% csrf_token %}
 			<table>
 			{{	form.as_table }}

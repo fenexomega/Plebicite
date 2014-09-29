@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -33,7 +35,9 @@ def detalhe_enquete(request,id):
 	return render(request,'enquete_detalhe.html',{'enquete':enquete})
 
 
-def create_usuario(request):
+def registrar(request):
+	if request.user.is_authenticated(): #Se o usuário está autenticado
+		return HttpResponseRedirect(reverse("index")) # Redireione
 	if request.POST:
 		form = CreateUsuarioForm(request.POST) 
 		if form.is_valid():
@@ -49,9 +53,10 @@ def create_usuario(request):
 			user 			= authenticate(username=username,password=password)
 			login(request,user)
 			return HttpResponseRedirect(reverse("index"))
-		return render(request,'create_usuario.html',{'form':form})
+		return render(request,'registrar.html',{'form':form})
 	form = CreateUsuarioForm()
-	return render(request,'create_usuario.html',{'form':form})
+	return render(request,'registrar.html',{'form':form})
+
 
 
 def create_enquete(request):

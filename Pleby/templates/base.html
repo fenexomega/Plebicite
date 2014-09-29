@@ -49,11 +49,12 @@
                 {{ loginform.password }}
 	            </div>
 	            <button type="submit" class="btn btn-success">Logar</button>
-            <a href="{% url "create_usuario" %}" class="navbar-right navbar-nav " >Registrar</a>
+            <a href="{% url "registrar" %}" class="navbar-right navbar-nav " >Registrar</a>
             </form>
 			{% else %}
 				<h3 class="navbar-right" id="user-username" >Olá <a href="#">{{ user.username }}</a></h3>
 				<a class="navbar-right" href="{% url "log_out" %}" >Logout</a>
+        <a class="navbar-right" href="{% url "create_enquete" %}" >Criar Enquete</a>
 			{% endif %}
 	    	</div><!--/.navbar-collapse -->
 	    </div>
