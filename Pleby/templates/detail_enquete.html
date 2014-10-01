@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+	{% block title %}
+		{{ enquete.titulo }}
+	{% endblock %}
+	{% block body %}
+	<div class="container">
+	<div class="row">
+		<h2>{{ enquete.titulo }}</h2>
+		<p>{{  enquete.descricao }}</p>
+		<div class="tags_enquetes">
+			{% for tag in enquete.tags.all %}
+				<a href="{% url "list_enquetes_by_tag" tag.id %}">@{{ tag.titulo }}</a>
+			{% endfor %}
+		</div>
+	{% for opcao in opcoes %} 
+	<!-- TODO: Terminar essa view de detalhes -->
+		 <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+		<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+	</div>
+	</div>
+	{% endblock %}

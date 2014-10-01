@@ -59,3 +59,6 @@ class CreateEnqueteForm(forms.ModelForm):
 	class Meta:
 		model = Enquete
 		exclude = ['data_ultima_votacao']
+		widgets = {
+			'data_validade':extras.SelectDateWidget()
+		}
