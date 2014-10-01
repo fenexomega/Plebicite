@@ -8,6 +8,10 @@
 		{% csrf_token %}
 			<table class="table">
 				{{ form.as_table }}
+				{{ formset.management_form }}
+				{% for forms in formset %}
+					{{ forms.as_table }}
+				{% endfor %}
 				<td>
 					<input value="Criar Enquete" type="submit"  class="btn btn-success" />
 				</td>

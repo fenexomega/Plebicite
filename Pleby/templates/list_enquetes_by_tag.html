@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+	{% block title %}
+		Criar Enquete
+	{% endblock %}
+	{% block body %}
+	<div class="container">
+	<div class="row">
+	{% for enquete in enquetes %}
+	        <div class="col-md-4">
+	          <h2>{{ enquete.titulo }}</h2>
+	          <p>{{	enquete.descricao | truncatechars:400 }}</p>
+	          <div class="tags_enquetes">
+	      	  </div>
+	          <p><a class="btn btn-default" href="#" role="button">Ver Detalhes &raquo;</a></p>
+	        </div>
+	{% endfor %}
+	</div>
+	{% endblock %}

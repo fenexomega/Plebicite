@@ -46,7 +46,13 @@ class CreateUsuarioForm(forms.Form):
 class OpcaoForm(forms.ModelForm):
 	class Meta:
 		model = Opcao
-		exclude = ['votos']
+		exclude = ['votos','enquete']
+		labels = {
+			'titulo':'Opção'
+		}
+
+# Formset
+OpcaoFormSet = formset_factory(OpcaoForm,extra=2)
 
 class CreateEnqueteForm(forms.ModelForm):
 	tags = forms.CharField()

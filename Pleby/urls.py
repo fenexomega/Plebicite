@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^enquete_detail_(?P<id>\d+)$','Pleby.views.detalhe_enquete',name="detalhe_enquete"),
     url(r'^log_out$','Pleby.views.log_out',name="log_out"),
     url(r'^create_enquete$','Pleby.views.create_enquete',name="create_enquete"),
+    url(r'^tag_detail_(?P<pk>\d+)$','Pleby.views.list_enquetes_by_tag',name="list_enquetes_by_tag")
 )

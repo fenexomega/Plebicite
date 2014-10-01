@@ -21,7 +21,7 @@
 				          <p>{{	enquete.descricao | truncatechars:400 }}</p>
 				          <div class="tags_enquetes">
 				          {% for tag in enquete.tags.all %}
-				          		<a href="#">@{{ tag.titulo }}</a>
+				          		<a href="{% url "list_enquetes_by_tag" tag.id %}">@{{ tag.titulo }}</a>
 				          {% endfor %}
 				      	  </div>
 				          <p><a class="btn btn-default" href="#" role="button">Ver Detalhes &raquo;</a></p>

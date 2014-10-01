@@ -1,12 +1,13 @@
 #encoding: utf-8
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
-from Pleby.models import *
-from .forms import LoginForm,CreateUsuarioForm, CreateEnqueteForm
 from django.contrib.auth.decorators import login_required
+
+from Pleby.models import *
+from .forms import LoginForm,CreateUsuarioForm, CreateEnqueteForm, OpcaoFormSet
 
 
 def index(request):
@@ -62,16 +63,42 @@ def registrar(request):
 @login_required
 def create_enquete(request):
 	form = CreateEnqueteForm()
+	formset = OpcaoFormSet()
 	if request.POST:
-		form = CreateEnqueteForm(request.POST)
-		if form.is_valid():
+		form 	= CreateEnqueteForm(request.POST)
+		formset = OpcaoFormSet(request.POST)
+		if form.is_valid() and formset.is_valid():
+
 			titulo 		= form.cleaned_data['titulo']
 			descricao 	= form.cleaned_data['descricao']
-			tags 		= form.cleaned_data['tags']
-			opcoes		= form.cleaned_data['opcoes']
+			tags_names 	= form.cleaned_data['tags']
+			
+			tags_names_list	= tags_names.split()
+			
+			enquete = Enquete(titulo=titulo,descricao=descricao)
+			enquete.save()
+			
+			for title in tags_names_list:
+				tag,created = Tag.objects.get_or_create(titulo=title)
+				enquete.tags.add(tag)
+				tag.save()
+
+			for forms in formset:
+				opcao = Opcao(titulo=forms.cleaned_data['titulo'],enquete=enquete)
+				opcao.save()
+			# nova_enquete = Enquete(titulo=titulo,descricao=descricao)
 			#Usar Formsets aqui para fazer a lista de perguntas/opções
 			# https://stackoverflow.com/questions/17159567/how-to-create-a-list-of-fields-in-django-forms
-	return render(request,'create_enquete.html',{'form':form})
+			# https://stackoverflow.com/questions/10817286/django-formset-as-form-field
+	return render(request,'create_enquete.html',{'form':form,'formset':formset})
+
+def list_enquetes_by_tag(request,pk):
+	tag = Tag.objects.get(id=pk) #TODO: Aqui tá pegando pelo ID. melhor seria pelo título. Pesquisar
+	if tag:
+		enquetes = Enquete.objects.filter(tags=tag)
+	else:
+		raise Http404
+	return render(request,'list_enquetes_by_tag.html',{'enquetes':enquetes})
 
 @login_required
 def log_out(request):
