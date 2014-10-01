@@ -11,6 +11,7 @@ class Tag(models.Model):
 class Opcao(models.Model):
 	titulo = models.CharField(max_length=100,blank=None)
 	votos = models.IntegerField(default=0)
+	enquete = models.ForeignKey('Enquete')
 	def __unicode__(self):
 		return self.titulo
 
@@ -18,7 +19,7 @@ class Enquete(models.Model):
 	titulo = models.CharField(max_length=500,blank=None)
 	descricao = models.TextField(blank=None)
 	tags = models.ManyToManyField(Tag,blank=None)
-	opcoes = models.ManyToManyField(Opcao,verbose_name="opções")
+	# opcoes = models.ManyToManyField(Opcao,verbose_name="opções")
 	data_ultima_votacao = models.DateField(null=False,blank=False)
 	def __unicode__(self):
 		return self.titulo

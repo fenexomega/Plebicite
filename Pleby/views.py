@@ -1,5 +1,4 @@
 #encoding: utf-8
-
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -7,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login , logout
 from Pleby.models import *
 from .forms import LoginForm,CreateUsuarioForm, CreateEnqueteForm
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
 	enquetes = Enquete.objects.all()[:3]
@@ -58,7 +59,7 @@ def registrar(request):
 	return render(request,'registrar.html',{'form':form})
 
 
-
+@login_required
 def create_enquete(request):
 	form = CreateEnqueteForm()
 	if request.POST:
@@ -68,11 +69,11 @@ def create_enquete(request):
 			descricao 	= form.cleaned_data['descricao']
 			tags 		= form.cleaned_data['tags']
 			opcoes		= form.cleaned_data['opcoes']
+			#Usar Formsets aqui para fazer a lista de perguntas/opções
+			# https://stackoverflow.com/questions/17159567/how-to-create-a-list-of-fields-in-django-forms
 	return render(request,'create_enquete.html',{'form':form})
 
-
-
-
+@login_required
 def log_out(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('index'))

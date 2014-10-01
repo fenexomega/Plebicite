@@ -3,7 +3,8 @@ from django import forms
 from django.contrib.auth import authenticate
 import datetime
 from django.forms import extras
-from Pleby.models import Enquete
+from Pleby.models import Enquete,Opcao
+from django.forms.formsets import formset_factory
 
 def getYear():
 	return (datetime.datetime.utcnow() - datetime.timedelta(hours=11)).year
@@ -38,7 +39,17 @@ class CreateUsuarioForm(forms.Form):
 			raise forms.ValidationError("As senhas não conferem!")
 		return self.cleaned_data
 
+# class CreateEnqueteForm(forms.Form):
+# 	titulo = forms.CharField(label="Título",max_length=150)
+# 	descricao = forms.TextField(label="Descrição")
+
+class OpcaoForm(forms.ModelForm):
+	class Meta:
+		model = Opcao
+		exclude = ['votos']
+
 class CreateEnqueteForm(forms.ModelForm):
+	tags = forms.CharField()
 	class Meta:
 		model = Enquete
-		exclude = []
+		exclude = ['data_ultima_votacao']

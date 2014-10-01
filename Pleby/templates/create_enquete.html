@@ -3,13 +3,13 @@
 		Criar Enquete
 	{% endblock %}
 	{% block body %}
-	<div class="container">
-		<form method="post" action="#" class="form-control">
+	<div class="container form_container">
+		<form method="post" action="#" class="form-horizontal">
 		{% csrf_token %}
-			<table>
+			<table class="table">
 				{{ form.as_table }}
 				<td>
-					<input value="Criar Enquete" ttpe="submit"  class="btn btn-success" />
+					<input value="Criar Enquete" type="submit"  class="btn btn-success" />
 				</td>
 			</table>
 		</form>
