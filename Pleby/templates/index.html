@@ -21,10 +21,10 @@
 				          <p>{{	enquete.descricao | truncatechars:400 }}</p>
 				          <div class="tags_enquetes">
 				          {% for tag in enquete.tags.all %}
-				          		<a href="{% url "list_enquetes_by_tag" tag.id %}">@{{ tag.titulo }}</a>
+				          		<a href="{% url "list_enquetes_by_tag" tag.titulo %}">@{{ tag.titulo }}</a>
 				          {% endfor %}
 				      	  </div>
-				          <p><a class="btn btn-default" href="#" role="button">Ver Detalhes &raquo;</a></p>
+				          <p><a class="btn btn-default" href="{% url "detail_enquete" enquete.id %}" role="button">Ver Detalhes &raquo;</a></p>
 				        </div>
 				{% endfor %}
 				</div>

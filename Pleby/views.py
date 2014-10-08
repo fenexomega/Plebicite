@@ -32,9 +32,10 @@ def login_user(request):
 
 
 
-def detalhe_enquete(request,id):
+def detail_enquete(request,id):
 	enquete = Enquete.objects.get(id=id)
-	return render(request,'enquete_detalhe.html',{'enquete':enquete})
+	opcoes = Opcao.objects.filter(enquete=enquete)
+	return render(request,'detail_enquete.html',{'enquete':enquete,'opcoes':opcoes})
 
 
 def registrar(request):
@@ -86,14 +87,15 @@ def create_enquete(request):
 			for forms in formset:
 				opcao = Opcao(titulo=forms.cleaned_data['titulo'],enquete=enquete)
 				opcao.save()
+			return HttpResponseRedirect(reverse("index"))
 			# nova_enquete = Enquete(titulo=titulo,descricao=descricao)
 			#Usar Formsets aqui para fazer a lista de perguntas/opções
 			# https://stackoverflow.com/questions/17159567/how-to-create-a-list-of-fields-in-django-forms
 			# https://stackoverflow.com/questions/10817286/django-formset-as-form-field
 	return render(request,'create_enquete.html',{'form':form,'formset':formset})
 
-def list_enquetes_by_tag(request,pk):
-	tag = Tag.objects.get(id=pk) #TODO: Aqui tá pegando pelo ID. melhor seria pelo título. Pesquisar
+def list_enquetes_by_tag(request,titulo):
+	tag = Tag.objects.get(titulo=titulo) #TODO: Aqui tá pegando pelo ID. melhor seria pelo título. Pesquisar
 	if tag:
 		enquetes = Enquete.objects.filter(tags=tag)
 	else:

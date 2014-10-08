@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 import datetime
 from django.forms import extras
 from Pleby.models import Enquete,Opcao
-from django.forms.formsets import formset_factory
+from django.forms.formsets import formset_factory, BaseFormSet
 
 def getYear():
 	return (datetime.datetime.utcnow() - datetime.timedelta(hours=11)).year
@@ -39,11 +39,12 @@ class CreateUsuarioForm(forms.Form):
 			raise forms.ValidationError("As senhas não conferem!")
 		return self.cleaned_data
 
-# class CreateEnqueteForm(forms.Form):
-# 	titulo = forms.CharField(label="Título",max_length=150)
-# 	descricao = forms.TextField(label="Descrição")
 
 class OpcaoForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(OpcaoForm, self).__init__(*args, **kwargs)
+		self.fields['titulo'].required = True
+
 	class Meta:
 		model = Opcao
 		exclude = ['votos','enquete']
@@ -51,8 +52,16 @@ class OpcaoForm(forms.ModelForm):
 			'titulo':'Opção'
 		}
 
+# https://stackoverflow.com/questions/2406537/django-formsets-make-first-required/2422221#2422221 
+# Solução para não deixar formsets nulos.
+class OpcaoRequiredFormSet(BaseFormSet):
+	def __init__(self,*args,**kwargs):
+		super(OpcaoRequiredFormSet,self).__init__(*args,**kwargs)
+		for form in self.forms:
+			form.empty_permitted = False
+
 # Formset
-OpcaoFormSet = formset_factory(OpcaoForm,extra=2)
+OpcaoFormSet = formset_factory(OpcaoForm,formset=OpcaoRequiredFormSet,extra=2)
 
 class CreateEnqueteForm(forms.ModelForm):
 	tags = forms.CharField()
@@ -62,3 +71,4 @@ class CreateEnqueteForm(forms.ModelForm):
 		widgets = {
 			'data_validade':extras.SelectDateWidget()
 		}
+
